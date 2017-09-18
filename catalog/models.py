@@ -65,4 +65,9 @@ class Author(models.Model):
 	def __str__(self):
 		return '{0}, {1}'.format(self.last_name, self.first_name)
 
-# end models.py
+# Language: (list of all languages in library, subject to change so is model)
+class Language(models.Model):
+	name = models.CharField(max_length=100)
+
+	def __str__(self):
+		return self.name
