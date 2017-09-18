@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.urls import reverse
+import uuid
 
 # Genre: (list skeleton/maker)
 class Genre(models.Model):
@@ -12,11 +13,11 @@ class Genre(models.Model):
 
 # Book: (title, not physical object)
 class Book(models.Model):
-
 	title = models.CharField(max_length=200)
 	author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
 	summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book.")
-	isbn = models.CharField('ISBN', max_length=13, help_text='Enter the 13-digit <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
+	isbn = models.CharField('ISBN', max_length=13, 
+		help_text='Enter the 13-digit <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
 	# NB: 'ISBN' gets assigned to verbose_name attribute of field; is optional 1st arg
 	genre = models.ManyToManyField(Genre, help_text="Please choose one or more genres for this title.")
 
@@ -28,3 +29,25 @@ class Book(models.Model):
 		# we need to write URL handler called 'book-details'
 		# also create template for handler to use
 		# (basically an artifact entry page)
+
+# BookInstance: (physical object)
+class BookInstance(models.Model):
+	id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this book copy.")
+	book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
+	imprint = models.CharField(max_length=200) # ???
+	due_back = models.DateField(null=True, blank=True) # null/blank when book not checked out
+
+	LOAN_STATUS = (
+		('m', 'Maintenance'),
+		('o', 'On loan'),
+		('r', 'Reserved'),
+		('a', 'Available'),
+	) # ('db val', 'Display Text')
+
+	status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
+
+	class Meta:
+		ordering = ["due_back"]
+
+	def __str__(self):
+		return '{0} ({1})'.format(self.id, self.book.title)
