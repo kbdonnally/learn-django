@@ -10,10 +10,15 @@ admin.site.register(Author)
 admin.site.register(Genre)
 admin.site.register(Language)
 '''
+class BookInstanceInline(admin.TabularInline):
+	model = BookInstance
+	extra = 0 
+	# extra default = 3 blank entries, is confusing
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
 	list_display = ('title', 'author', 'display_genre')
+	inlines = [BookInstanceInline]
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
