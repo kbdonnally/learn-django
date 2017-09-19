@@ -17,11 +17,20 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-	pass
+	list_filter = ('status', 'due_back')
+	fieldsets = (
+		(None, {
+			'fields': ('book', 'imprint', 'id')
+		}),
+		('Availability', {
+			'fields': ('status', 'due_back', 'id')
+		}),
+	)
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-	pass
+	list_display = ('first_name', 'last_name', 'date_of_birth', 'date_of_death')
+	fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')] # tuples = inline; default = block
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
