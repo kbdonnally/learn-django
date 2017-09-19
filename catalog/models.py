@@ -31,6 +31,14 @@ class Book(models.Model):
 		# also create template for handler to use
 		# (basically an artifact entry page)
 
+	# for BookAdmin:
+	def display_genre(self):
+		return ", ".join ( [genre.name for genre in self.genre.all[:3]] )
+		# returns 'genre1, genre2, genre3' for the names listed in the book's return object for its 'genre' field
+		# Book.genre is ManyToManyField object, so must be turned into string first
+	display_genre.short_description = 'Genre'
+	# above: can be used in admin site w/ this method
+
 # BookInstance: (physical object)
 class BookInstance(models.Model):
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this book copy.")
