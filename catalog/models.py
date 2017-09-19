@@ -33,10 +33,10 @@ class Book(models.Model):
 
 	# for BookAdmin:
 	def display_genre(self):
-		return ", ".join ( [genre.name for genre in self.genre.all[:3]] )
+		return ", ".join ( [genre.name for genre in self.genre.all()[:3]] )
 		# returns 'genre1, genre2, genre3' for the names listed in the book's return object for its 'genre' field
 		# Book.genre is ManyToManyField object, so must be turned into string first
-	# display_genre.short_description = 'Genre'
+	display_genre.short_description = 'Genre'
 	# above: can be used in admin site w/ this method
 
 # BookInstance: (physical object)
