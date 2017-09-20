@@ -26,7 +26,7 @@ class Book(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return reverse('book-details', args=[str(self.id)])
+		return reverse('book-detail', args=[str(self.id)]) # edit: changing to 'book-detail' b/c made singular in other files
 		# we need to write URL handler called 'book-details'
 		# also create template for handler to use
 		# (basically an artifact entry page)
