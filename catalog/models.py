@@ -21,7 +21,7 @@ class Book(models.Model):
 	genre = models.ManyToManyField(Genre, help_text="Please choose one or more genres for this title.")
 	# MDN challenge:
 	language = models.ManyToManyField('Language', help_text="Languages available for this title")
-	slug = models.SlugField() # edit: 9/22/17 to use with BookAdmin
+	slug = models.SlugField(unique=True, default=uuid.uuid4) # edit: 9/22/17 to use with BookAdmin
 
 	def __str__(self):
 		return self.title
