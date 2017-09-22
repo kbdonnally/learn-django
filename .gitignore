@@ -25,6 +25,8 @@
 *.log
 *.sql
 *.sqlite
+# adding for pycache #
+*.pyc
 
 # OS generated files #
 ######################
