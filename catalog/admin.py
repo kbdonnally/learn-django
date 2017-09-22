@@ -23,7 +23,7 @@ class BookInline(admin.TabularInline):
 class BookAdmin(admin.ModelAdmin):
 	list_display = ('title', 'author', 'display_genre')
 	inlines = [BookInstanceInline]
-	# prepopulated_fields = {'slug': ('id',)} # new: 9/22/17
+	prepopulated_fields = {'slug': ('title',)} # new: 9/22/17
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
