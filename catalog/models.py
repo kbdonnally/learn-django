@@ -23,11 +23,14 @@ class Book(models.Model):
 	language = models.ManyToManyField('Language', help_text="Languages available for this title")
 	slug = models.SlugField(unique=True) # removed: 'default=uuid.uuid4' from creating slug field
 
+	class Meta:
+		ordering = ['title']
+
 	def __str__(self):
 		return self.title
 
 	def get_absolute_url(self):
-		return reverse('book-detail', args=[str(self.id)]) # edit: changing to 'book-detail' b/c made singular in other files
+		return reverse('book-detail', args=[self.slug]) # 'self.id' -> 'self.slug'
 		# we need to write URL handler called 'book-details'
 		# also create template for handler to use
 		# (basically an artifact entry page)
