@@ -41,8 +41,9 @@ class BookInstanceAdmin(admin.ModelAdmin):
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
 	list_display = ('first_name', 'last_name', 'date_of_birth', 'date_of_death')
-	fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')] # tuples = inline; default = block
+	fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death'), 'slug'] # tuples = inline; default = block
 	inlines = [BookInline] # NB: how to omit a field from showing inline? how to make inline non-editable?
+	prepopulated_fields = {'slug': ('last_name',)} # new: 9/22/17
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
